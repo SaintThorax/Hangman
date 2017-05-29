@@ -51,7 +51,7 @@ public class gameOptions extends JPanel {
         enterWordLb = new JLabel("Enter the secret word");
         selectDifLb = new JLabel("Select the difficulty");
 
-        ArrayList<JLabel> labels = new ArrayList<JLabel>();
+        ArrayList<JLabel> labels = new ArrayList<>();
         labels.add(headLb);
         labels.add(enterWordLb);
         labels.add(selectDifLb);
@@ -152,7 +152,7 @@ class DifficultyListener implements ActionListener {
 class GameStartListener implements ActionListener{
     public void actionPerformed(ActionEvent e){
         String secretWord = gameOptions.enterWordTf.getText();
-        secretWord.toLowerCase();
+        secretWord = secretWord.toUpperCase();
 
         Main.setSecretWord(secretWord);
         Main.isInputValid();

@@ -3,30 +3,35 @@ package com.company;
 import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.Graphics;
 
 public class Main extends JFrame {
-    private static JFrame frame;
+    public static JFrame frame;
     public static int difficulty;
     public static String secretWord;
 
     public static void main(String[] args) {
+        createFrame();
+        startMenu();
+    }
+
+    public static void createFrame(){
         frame = new JFrame();
         frame.setSize(800,400);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
         frame.setVisible(true);
         frame.setTitle("Hangman");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //startMenu();
-        startGameOptions();
     }
 
     public static void startMenu(){
-        System.out.print("menu method");
         frame.setContentPane(new gameMenu());
         frame.validate();
     }
 
     public static void startGameOptions(){
-        System.out.print("start options");
         frame.setContentPane(new gameOptions());
         frame.validate();
     }
@@ -37,8 +42,6 @@ public class Main extends JFrame {
     }
 
     public static void isInputValid(){
-        System.out.print("isInputValid? ---- ");
-        System.out.print("diff: " + difficulty + " word: " + secretWord);
         if ((difficulty == 10 || difficulty == 8 || difficulty == 6) && !(secretWord.isEmpty())){
             startGame();
         } else {
@@ -46,14 +49,20 @@ public class Main extends JFrame {
         }
     }
 
-    public static int setDifficulty(int getDifficulty){
+    public static void setDifficulty(int getDifficulty){
         //difficulty is a number equal to how many mistakes may be made. Easy = 10, Med = 8, Hard = 6.
         difficulty = getDifficulty;
+    }
+    public static int getDifficulty(){
         return difficulty;
     }
 
-    public static String setSecretWord(String getSecretWord){
+    public static void setSecretWord(String getSecretWord){
         secretWord = getSecretWord;
+    }
+    public static String getSecretWord(){
         return secretWord;
     }
+
+
 }
