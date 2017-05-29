@@ -37,7 +37,7 @@ public class gameMenu extends JPanel {
         gameStart.setBackground(Color.decode("#ECF0F1"));
         gameStart.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
         gameStart.setPreferredSize(new Dimension(200,60));
-        gameStart.addActionListener(new gameStartListener());
+        gameStart.addActionListener(new gameOptionsStartListener());
 
         gameExit = new JButton("Exit game");
         gameExit.setFont(new Font("Century Gothic", Font.BOLD, 20));
@@ -61,7 +61,7 @@ class gameExitListener implements ActionListener{
     }
 }
 
-class gameStartListener implements ActionListener{
+class gameOptionsStartListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         System.out.print("start event ");
