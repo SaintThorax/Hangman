@@ -1,0 +1,16 @@
+1. Better Victory & Loss situations.
+2. Menu button
+3. Color design
+4. Singleplay or multiplayer options
+  4.1 List with easy/med/hard english (and possibly dutch) words (about 20 each difficulty)
+  4.2 Maybe have the user choose between dutch and english. Could also be a menu setting that translates all strings.
+5. Better rules
+  5.1 Max characters
+  5.2 String checker (no special chars)
+  5.3 If possible disable copy paste.
+6. Clean up code
+  6.1 remove system.out.println's
+  6.2 remove unused or obsolete code
+  6.3 Add comments and improve existing ones.
+  
+Ask others for critism and possible improvements
