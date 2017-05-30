@@ -5,14 +5,17 @@ import java.awt.event.*;
 import java.awt.*;
 
 public class gameMenu extends JPanel {
-    private JButton gameStart, gameExit;
+    private static JButton gameStart, gameExit;
     private JLabel gameTitle, gameCredits;
     private JPanel framePanel, titlePanel, buttonPanel;
+    public static int selectMode;
 
     public gameMenu(){
         setButtons();
         setLabels();
         createMenu();
+
+        selectMode = 0;
     }
 
     public void createMenu(){
@@ -30,8 +33,19 @@ public class gameMenu extends JPanel {
         add(framePanel);
     }
 
+    public static void menuSelect(){
+        System.out.println("menuselect start");
+        gameStart.setText("Singleplayer");
+        gameExit.setText("Multiplayer");
+        gameExit.removeActionListener(new gameExitListener());
+        gameExit.addActionListener(new gameOptionsStartListener());
+
+        selectMode = 1;
+    }
+
     public void setButtons(){
         gameStart = new JButton("Start game");
+        gameStart.setName("Single");
         gameStart.setFont(new Font("Century Gothic", Font.BOLD, 20));
         gameStart.setFocusPainted(false);
         gameStart.setBackground(Color.decode("#ECF0F1"));
@@ -40,6 +54,7 @@ public class gameMenu extends JPanel {
         gameStart.addActionListener(new gameOptionsStartListener());
 
         gameExit = new JButton("Exit game");
+        gameExit.setName("Multi");
         gameExit.setFont(new Font("Century Gothic", Font.BOLD, 20));
         gameExit.setFocusPainted(false);
         gameExit.setBackground(Color.decode("#ECF0F1"));
@@ -56,15 +71,30 @@ public class gameMenu extends JPanel {
 
 class gameExitListener implements ActionListener{
     @Override
-    public void actionPerformed(ActionEvent e){
-        System.exit(0);
+    public void actionPerformed(ActionEvent e) {
+        if (gameMenu.selectMode == 1){
+            new gameOptionsStartListener();
+        } else {
+            System.exit(0);
+        }
     }
 }
 
 class gameOptionsStartListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
-        System.out.print("start event ");
-        Main.startGameOptions();
+
+        if (gameMenu.selectMode == 1){
+            JButton btnName = (JButton)e.getSource();
+            if (btnName.getName().equals("Single")){
+                Main.startSinglePlayer();
+            } else {
+                Main.startGameOptions();
+            }
+        }
+
+        gameMenu.menuSelect();
+
+        //Main.startGameOptions();
     }
 }

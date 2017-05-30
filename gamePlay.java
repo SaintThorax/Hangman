@@ -112,7 +112,7 @@ public class gamePlay extends JPanel {
         for (char c : secretChars){
             String charStr = "" + c;
             if (charStr.equals(guessStr)){
-                charJbList.get(cycle).setFont(new Font("Century Gothic", Font.BOLD, 30));
+                charJbList.get(cycle).setFont(new Font("Century Gothic", Font.BOLD, (int) ((1.0/secretWord.length()) * 300)));
             }
             cycle++;
         }
@@ -307,10 +307,12 @@ public class gamePlay extends JPanel {
 
     public void gameGetDifficulty(){
         difficulty = Main.getDifficulty();
+        System.out.println("Difficulty from gamePlay gamegetdif() " + difficulty);
     }
 
     public void gameGetSecretWord(){
         secretWord = Main.getSecretWord();
+        System.out.println("word from gamePlay gamegetword()" + secretWord);
     }
 }
 

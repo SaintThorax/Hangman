@@ -157,7 +157,7 @@ class GameStartListener implements ActionListener{
         String secretWord = gameOptions.enterWordTf.getText();
         secretWord = secretWord.toUpperCase();
 
-        if (secretWord.length() < 24){
+        if (secretWord.length() <= 26){
 
             Pattern alphaPattern = Pattern.compile("[^a-z]", Pattern.CASE_INSENSITIVE);
             Matcher alphaMatcher = alphaPattern.matcher(secretWord);
