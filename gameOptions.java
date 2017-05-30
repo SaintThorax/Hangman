@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class gameOptions extends JPanel {
     private JLabel headLb, enterWordLb, selectDifLb;
@@ -150,11 +152,30 @@ class DifficultyListener implements ActionListener {
 }
 
 class GameStartListener implements ActionListener{
+
     public void actionPerformed(ActionEvent e){
         String secretWord = gameOptions.enterWordTf.getText();
         secretWord = secretWord.toUpperCase();
 
-        Main.setSecretWord(secretWord);
-        Main.isInputValid();
+        if (secretWord.length() < 24){
+
+            Pattern alphaPattern = Pattern.compile("[^a-z]", Pattern.CASE_INSENSITIVE);
+            Matcher alphaMatcher = alphaPattern.matcher(secretWord);
+            boolean specialChar = alphaMatcher.find();
+
+            if (specialChar == true){
+                JOptionPane.showMessageDialog(Main.frame, "Please enter only alphabetic characters.");
+                gameOptions.enterWordTf.setText("");
+            } else {
+                Main.setSecretWord(secretWord);
+                Main.isInputValid();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(Main.frame, "Max 24 characters.");
+            gameOptions.enterWordTf.setText("");
+        }
+
+
     }
 }

@@ -46,55 +46,48 @@ public class gamePlay extends JPanel {
         add(contentPane);
         Main.frame.revalidate();
         Main.frame.repaint();
+
         Main.frame.setVisible(true);
     }
 
     public void paint(Graphics g){
-        System.out.println("In paint method");
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D)g;
-        g2d.setStroke(new BasicStroke(5));
-        g2d.setColor(Color.black);
+        g2d.setStroke(new BasicStroke(6));
+        g2d.setColor(Color.decode("#2b2b2b"));
 
         if (mistakes <= 9){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(25,getHeight()-40,325,getHeight()-40); //done
+            g2d.drawLine(25,getHeight()-20,325,getHeight()-20); // BASE
         }if (mistakes <= 8){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(140,getHeight()-40,140,getHeight()-240); // done
+            g2d.drawLine(140,getHeight()-20,140,getHeight()-220); // POLE
         }if (mistakes <= 7){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(140,getHeight()-240,260,getHeight()-240); //done
+            g2d.drawLine(140,getHeight()-220,260,getHeight()-220); // SUPPORT ROPE POLE
         }if (mistakes <= 6){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(260,getHeight()-240,260,getHeight()-200); //done
+            g2d.drawLine(260,getHeight()-220,260,getHeight()-180); // ROPE
         }if (mistakes <= 5){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawOval(247,getHeight()-200,26,26);
-        }if (mistakes <= 4){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(260,getHeight()-174,260,getHeight()-120);
-        }if (mistakes <= 3){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(260,getHeight()-174,220,getHeight()-140);
-        }if (mistakes <= 2){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(260,getHeight()-174,300,getHeight()-140);
-        }if (mistakes <= 1){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(260,getHeight()-120,300,getHeight()-70);
-        }if (mistakes <= 0){
-            System.out.println("Paint <= 9 mistakes");
-            g2d.drawLine(260,getHeight()-120,220,getHeight()-70);
-        }
+            g2d.fillOval(247,getHeight()-180,26,26); // HEAD
 
+        }if (mistakes <= 4){
+            g2d.drawLine(260,getHeight()-154,260,getHeight()-100); //TORSO
+        }if (mistakes <= 3){
+            g2d.drawLine(260,getHeight()-154,250,getHeight()-125); // LEFT ARM
+            g2d.drawLine(250,getHeight()-125,250,getHeight()-100); // LEFT UNDERARM
+        }if (mistakes <= 2){
+            g2d.drawLine(260,getHeight()-154,270,getHeight()-125); // RIGHT ARM
+            g2d.drawLine(270,getHeight()-125,270,getHeight()-100); // RIGHT UNDERARM
+        }if (mistakes <= 1){
+            g2d.drawLine(260,getHeight()-100,250,getHeight()-75); // LEFT LEG
+            g2d.drawLine(250,getHeight()-75,250,getHeight()-50); // LEFT UNDERLEG
+        }if (mistakes <= 0){
+            g2d.drawLine(260,getHeight()-100,270,getHeight()-75); // RIGHT LEG
+            g2d.drawLine(270,getHeight()-75,270,getHeight()-50); // LEFT UNDERLEG
+        }
 
         g2d.dispose();
     }
 
     public void actionPerformed(ActionEvent e){
-        System.out.println("act perf");
         this.repaint();
     }
 
@@ -106,17 +99,18 @@ public class gamePlay extends JPanel {
         guessStr = guessStr.toUpperCase();
 
         correctGuesses.add(guess);
+        ArrayList<Character> testWin = new ArrayList<>();
+
+        System.out.println("test corr: " + correctGuesses);
+        System.out.println("test sec: " + secretChars);
 
         for (char corrGuess: correctGuesses) {
             hasWon = hasWon+ corrGuess;
-            System.out.println(hasWon);
         }
-
 
         int cycle = 0;
         for (char c : secretChars){
             String charStr = "" + c;
-
             if (charStr.equals(guessStr)){
                 charJbList.get(cycle).setFont(new Font("Century Gothic", Font.BOLD, 30));
             }
@@ -127,7 +121,11 @@ public class gamePlay extends JPanel {
             mis.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         }
 
-        System.out.print(mistakes);
+        if (correctGuesses.containsAll(secretChars)) {
+            JOptionPane.showMessageDialog(Main.frame, "Congratulations, you won!");
+            Main.startMenu();
+        }
+
 
     }
 
@@ -155,21 +153,21 @@ public class gamePlay extends JPanel {
         mistakes--;
         this.repaint();
 
-        if (mistakes == 0){
-            JOptionPane.showMessageDialog(new JFrame(),"Game Over! \n Return to main menu");
-            Main.startMenu();
-        }
-
         for (JLabel mis : mistakesArray){
             mistakeCharsPane.add(mis);
             //mistakeCharsPane.add(new JLabel("--"));
             mistakeCharsPane.setVisible(true);
         }
 
-
-
         mistakesArray.add(new JLabel("--"));
         mistakesLb.setText("Mistakes : (" + mistakes + ")");
+
+        if (mistakes == 0){
+            JOptionPane lossOpt = new JOptionPane();
+            lossOpt.showMessageDialog(Main.frame,"Game Over! \n Return to main menu");
+            mistakesLb.setText("Game over");
+            Main.startMenu();
+        }
     }
 
 
@@ -202,16 +200,13 @@ public class gamePlay extends JPanel {
 
     public void setPanels(){
         contentPane = new JPanel(new BorderLayout(4,0)); //holds all other parent panes
-        contentPane.setOpaque(true);
 
         hangPane = new JPanel(new BorderLayout()); //Holds the drawing field
         hangPane.setPreferredSize(new Dimension(330,350));
-        hangPane.setOpaque(true);
-        hangPane.setBorder(BorderFactory.createLineBorder(Color.black, 1, false));
+        hangPane.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
 
         playPane = new JPanel(new BorderLayout(0,50)); //Holds guess, mistake en charsPane.
         playPane.setPreferredSize(new Dimension(430, 350));
-        playPane.setBorder(BorderFactory.createLineBorder(Color.black, 1, false));
 
 
         guessPane = new JPanel(new BorderLayout()); //holds guess label and textfield;
@@ -243,14 +238,13 @@ public class gamePlay extends JPanel {
 
         guessTf.addActionListener(e -> {
             if (guessTf.getText().length() >= 2 || guessTf.getText().length() <= 0){
-                JOptionPane.showMessageDialog(new JFrame(), "Please enter 1 character.");
+                JOptionPane.showMessageDialog(Main.frame, "Please enter 1 character.");
                 guessTf.setText("");
             } else {
                 char guessedChar = guessTf.getText().charAt(0);
                 String guessedString = guessTf.getText();
                 guessedString = guessedString.toUpperCase();
 
-                System.out.println("before loop " + secretWord + " =?= " + guessedString);
                 if (secretWord.contains(guessedString)){
                     gameGuess(guessedChar);
                 } else {
@@ -270,12 +264,31 @@ public class gamePlay extends JPanel {
         guessBoxPane.add(guessTf);
         guessPane.add(guessBoxPane, BorderLayout.PAGE_END);
 
+        JPanel buttonPane = new JPanel();
+
+        JButton menuBtn = new JButton("Menu");
+        menuBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.startMenu();
+            }
+        });
+        menuBtn.setHorizontalAlignment(SwingConstants.CENTER);
+        menuBtn.setPreferredSize(new Dimension(200,25));
+        menuBtn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+        menuBtn.setBorder(BorderFactory.createLineBorder(Color.BLACK,1, true));
+        buttonPane.add(menuBtn);
+
+        guessPane.add(buttonPane, BorderLayout.PAGE_START);
+
         mistakePane = new JPanel(new BorderLayout(10,0)); //holds mistakes label and mistakes chars
+//        mistakePane.setBackground(Color.decode("#ACF0F2"));
         mistakeCharsPane = new JPanel();
+//        mistakeCharsPane.setBackground(Color.decode("#ACF0F2"));
         mistakeCharsPane.setPreferredSize(new Dimension(330,50));
 
         drawPane = new JPanel();
-        drawPane.setBackground(Color.white);
+//        drawPane.setBackground(Color.decode("#ACF0F2"));
 
         mistakePane.add(mistakeCharsPane, BorderLayout.CENTER);
 

@@ -13,7 +13,7 @@ public class Main extends JFrame {
 
     public static void main(String[] args) {
         createFrame();
-        startMenu();
+        startGameOptions();
     }
 
     public static void createFrame(){
